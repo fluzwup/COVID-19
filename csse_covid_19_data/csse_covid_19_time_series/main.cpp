@@ -113,9 +113,13 @@ int main(int argc, char **argv)
 		}
 
 		fp = fopen("FirstDerivative.csv", "w");
+		fprintf(fp, "Current cases, location, day ");
+		for(int i = 0; i < der1[0].size(); ++i)
+			fprintf(fp, "%i,", i);
+		fprintf(fp, "\n");
 		for(int i = 0; i < der1.size(); ++i)
 		{
-			fprintf(fp, "\"%s\",", location[i].c_str());
+			fprintf(fp, "%i,\"%s\",", cases[i].back(), location[i].c_str());
 			for(int j = 0; j < der1[i].size(); ++j)
 			{
 				fprintf(fp, "%10.2f,", der1[i][j]);
@@ -133,19 +137,19 @@ int main(int argc, char **argv)
 			float avg = 0.0;
 			for(int j = 0; j < der1[i].size(); ++j)
 			{
-				avg = 0.8 * avg + 0.2 * der1[i][j];
+				avg = 0.67 * avg + 0.33 * der1[i][j];
 				decayAvg[i][j] = avg;
 			}
 		}
 
 		fp = fopen("DecayingAverage.csv", "w");
-		fprintf(fp, "Location, current cases, day ");
+		fprintf(fp, "Current cases, location, day ");
 		for(int i = 0; i < decayAvg[0].size(); ++i)
 			fprintf(fp, "%i,", i);
 		fprintf(fp, "\n");
 		for(int i = 0; i < decayAvg.size(); ++i)
 		{
-			fprintf(fp, "\"%s\",%i,", location[i].c_str(), cases[i].back());
+			fprintf(fp, "%i,\"%s\",", cases[i].back(), location[i].c_str());
 			for(int j = 0; j < decayAvg[i].size(); ++j)
 			{
 				fprintf(fp, "%10.2f,", decayAvg[i][j]);
